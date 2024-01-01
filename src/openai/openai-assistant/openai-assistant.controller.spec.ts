@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OpenaiAssistantController } from './openai-assistant.controller';
+import { OpenAIAssistantController as OpenAIAssistantController } from './openai-assistant.controller';
 
-describe('OpenaiAssistantController', () => {
-  let controller: OpenaiAssistantController;
+describe('OpenAIAssistantController', () => {
+  let controller: OpenAIAssistantController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [OpenaiAssistantController],
+      controllers: [OpenAIAssistantController],
     }).compile();
 
-    controller = module.get<OpenaiAssistantController>(
-      OpenaiAssistantController,
+    controller = module.get<OpenAIAssistantController>(
+      OpenAIAssistantController,
     );
   });
 
