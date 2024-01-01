@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { OpenaiAssistantService } from './openai-assistant.service';
 import { ChatDto } from '../models/dto/chat.dto';
 
@@ -6,8 +6,7 @@ import { ChatDto } from '../models/dto/chat.dto';
 export class OpenaiAssistantController {
   constructor(private openaiAssistantService: OpenaiAssistantService) {}
 
-  // TODO: This should be POST
-  @Get('start')
+  @Post('start')
   async startConversation(): Promise<{ threadId: string }> {
     const thread = await this.openaiAssistantService.createNewThread();
     return {
@@ -16,7 +15,7 @@ export class OpenaiAssistantController {
   }
 
   @Post('chat')
-  chat(@Body() chatDto: ChatDto) {
+  chat(@Body() chatDto: ChatDto): { response: string } {
     // TODO: Implement
     return { response: chatDto.message };
   }
