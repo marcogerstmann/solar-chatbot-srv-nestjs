@@ -4,6 +4,6 @@ import { OpenAIModule } from './openai/openai.module';
 import { SolarModule } from './solar/solar.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), OpenAIModule, SolarModule],
+  imports: [ConfigModule.forRoot(), OpenAIModule, SolarModule, OpenAIModule],
 })
 export class AppModule {}

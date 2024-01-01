@@ -14,7 +14,6 @@ export class OpenAIAssistantService {
   ) {}
 
   async createNewThread(): Promise<Thread> {
-  async createNewThread(): Promise<Thread> {
     const openai = this.openAIService.getOpenAIClient();
     return await openai.beta.threads.create();
   }
@@ -51,7 +50,7 @@ export class OpenAIAssistantService {
         // TODO: Make this whole block more generic
         run.required_action.submit_tool_outputs.tool_calls.forEach(
           (toolCall) => {
-            // TODO: Use constants for the function names of the OpenAI assistant
+            // TODO: Use constants for the function names of the OpenAI assist
             if (toolCall.function.name === 'solarPanelCalculations') {
               const functionArguments = JSON.parse(toolCall.function.arguments);
               const output =
