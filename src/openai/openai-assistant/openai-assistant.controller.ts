@@ -6,7 +6,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { OpenAIAssistantService } from './openai-assistant.service';
-import { ChatDto } from '../models/dto/chat.dto';
+import { ChatDto } from '../model/dto/chat.dto';
 
 @Controller('openai-assistant')
 export class OpenAIAssistantController {

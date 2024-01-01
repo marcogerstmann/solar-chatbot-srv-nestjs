@@ -1,14 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { GeoService } from 'src/geo/geo.service';
 
 @Injectable()
 export class SolarService {
-  performSolarPanelCalculationsWithFinancialAnalysis(
+  constructor(private geoService: GeoService) {}
+
+  async performSolarPanelCalculationsWithFinancialAnalysis(
     address: string,
     monthlyBill: number,
   ) {
-    console.log(
-      `Performing solar panel calculations for address '${address}' and monthly bill of ${monthlyBill} EUR.`,
-    );
-    return 'The output';
+    // TODO: Implement
+    return { address, monthlyBill };
+    // const solarData = await this.getSolarDataForAddress(address);
+    // return performFinancialAnalysis(solarData, monthlyBill);
   }
+
+  // private async getSolarDataForAddress(address: string) {
+  // const coordinates = await this.geoService.getCoordinates(address);
+  // return getSolarDataForCoordinates(lat, lng);
+  // }
 }

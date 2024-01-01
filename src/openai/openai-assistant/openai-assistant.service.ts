@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OpenAIService } from '../openai.service';
-import { ChatDto } from '../models/dto/chat.dto';
+import { ChatDto } from '../model/dto/chat.dto';
 import { Thread } from 'openai/resources/beta/threads/threads';
 import { ConfigService } from '@nestjs/config';
 import { SolarService } from 'src/solar/solar.service';
@@ -62,7 +62,12 @@ export class OpenAIAssistantService {
                 chatDto.threadId,
                 run.id,
                 {
-                  tool_outputs: [{ tool_call_id: toolCall.id, output }],
+                  tool_outputs: [
+                    {
+                      tool_call_id: toolCall.id,
+                      output: JSON.stringify(output),
+                    },
+                  ],
                 },
               );
             }
