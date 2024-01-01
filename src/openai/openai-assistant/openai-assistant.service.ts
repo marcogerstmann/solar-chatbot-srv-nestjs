@@ -14,6 +14,7 @@ export class OpenAIAssistantService {
   ) {}
 
   async createNewThread(): Promise<Thread> {
+  async createNewThread(): Promise<Thread> {
     const openai = this.openAIService.getOpenAIClient();
     return await openai.beta.threads.create();
   }
