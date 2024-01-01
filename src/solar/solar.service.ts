@@ -1,22 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { GeoService } from 'src/geo/geo.service';
+import { GoogleSolarApiService } from './google-solar-api/google-solar-api.service';
 
 @Injectable()
 export class SolarService {
-  constructor(private geoService: GeoService) {}
+  constructor(private googleSolarApiService: GoogleSolarApiService) {}
 
   async performSolarPanelCalculationsWithFinancialAnalysis(
     address: string,
     monthlyBill: number,
   ) {
-    // TODO: Implement
-    return { address, monthlyBill };
-    // const solarData = await this.getSolarDataForAddress(address);
+    const buildingInsights =
+      await this.googleSolarApiService.getBuildingInsightsForAddress(address);
+    // TODO: Implement financial analysis of the buildingInsights
     // return performFinancialAnalysis(solarData, monthlyBill);
+    return { address, monthlyBill };
   }
-
-  // private async getSolarDataForAddress(address: string) {
-  // const coordinates = await this.geoService.getCoordinates(address);
-  // return getSolarDataForCoordinates(lat, lng);
-  // }
 }
