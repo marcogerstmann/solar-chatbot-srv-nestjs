@@ -9,9 +9,7 @@ describe('OpenAIAssistantController', () => {
       controllers: [OpenAIAssistantController],
     }).compile();
 
-    controller = module.get<OpenAIAssistantController>(
-      OpenAIAssistantController,
-    );
+    controller = module.get<OpenAIAssistantController>(OpenAIAssistantController);
   });
 
   it('should be defined', () => {

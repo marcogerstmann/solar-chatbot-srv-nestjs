@@ -48,31 +48,24 @@ export class OpenAIAssistantService {
 
       if (run.status === 'requires_action') {
         // TODO: Make this whole block more generic
-        run.required_action.submit_tool_outputs.tool_calls.forEach(
-          (toolCall) => {
-            // TODO: Use constants for the function names of the OpenAI assist
-            if (toolCall.function.name === 'solarPanelCalculations') {
-              const functionArguments = JSON.parse(toolCall.function.arguments);
-              const output =
-                this.solarService.performSolarPanelCalculationsWithFinancialAnalysis(
-                  functionArguments.address,
-                  functionArguments.monthlyBill,
-                );
-              openai.beta.threads.runs.submitToolOutputs(
-                chatDto.threadId,
-                run.id,
+        run.required_action.submit_tool_outputs.tool_calls.forEach(toolCall => {
+          // TODO: Use constants for the function names of the OpenAI assist
+          if (toolCall.function.name === 'solarPanelCalculations') {
+            const functionArguments = JSON.parse(toolCall.function.arguments);
+            const output = this.solarService.performSolarPanelCalculationsWithFinancialAnalysis(
+              functionArguments.address,
+              functionArguments.monthlyBill,
+            );
+            openai.beta.threads.runs.submitToolOutputs(chatDto.threadId, run.id, {
+              tool_outputs: [
                 {
-                  tool_outputs: [
-                    {
-                      tool_call_id: toolCall.id,
-                      output: JSON.stringify(output),
-                    },
-                  ],
+                  tool_call_id: toolCall.id,
+                  output: JSON.stringify(output),
                 },
-              );
-            }
-          },
-        );
+              ],
+            });
+          }
+        });
       }
 
       if (run.status === 'failed') {
@@ -89,6 +82,6 @@ export class OpenAIAssistantService {
   }
 
   private sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }

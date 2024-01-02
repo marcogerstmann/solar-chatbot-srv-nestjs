@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { OpenAIAssistantService } from './openai-assistant.service';
 import { ChatDto } from '../model/dto/chat.dto';
 
@@ -22,8 +16,7 @@ export class OpenAIAssistantController {
 
   @Post('chat')
   async chat(@Body() request: ChatDto): Promise<{ response: string }> {
-    const response =
-      await this.openAIAssistantService.handleChatMessage(request);
+    const response = await this.openAIAssistantService.handleChatMessage(request);
 
     if (response.isError) {
       throw new HttpException(response.answer, HttpStatus.BAD_REQUEST);

@@ -16,9 +16,7 @@ export class GoogleSolarApiService {
     private customerSpecifics: CustomerSpecificService,
   ) {}
 
-  async getBuildingInsightsForAddress(
-    address: string,
-  ): Promise<GoogleSolarBuildingInsights> {
+  async getBuildingInsightsForAddress(address: string): Promise<GoogleSolarBuildingInsights> {
     const coordinates = await this.geoService.getCoordinates(address);
     return await this.getBuildingInsightsForCoordinates(coordinates);
   }
@@ -26,9 +24,7 @@ export class GoogleSolarApiService {
   async getBuildingInsightsForCoordinates(
     coordinates: Coordinates,
   ): Promise<GoogleSolarBuildingInsights> {
-    const googleCloudApiKey = this.configService.get<string>(
-      'GOOGLE_CLOUD_API_KEY',
-    );
+    const googleCloudApiKey = this.configService.get<string>('GOOGLE_CLOUD_API_KEY');
     const solarApiUrl = `https://solar.googleapis.com/v1/buildingInsights:findClosest?location.latitude=${coordinates.latitude}&location.longitude=${coordinates.longitude}&requiredQuality=${this.customerSpecifics.minimumRequiredGoogleSolarApiImageQuality}&key=${googleCloudApiKey}`;
     const { data: buildingInsights } = await firstValueFrom(
       this.httpService.get<GoogleSolarBuildingInsights>(solarApiUrl).pipe(

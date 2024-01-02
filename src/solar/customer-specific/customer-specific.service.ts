@@ -22,8 +22,7 @@ export class CustomerSpecificService {
 
   roofAreaCoveragePercentToAnalyze = 0.3;
 
-  minimumRequiredGoogleSolarApiImageQuality: 'LOW' | 'MEDIUM' | 'HIGH' =
-    'MEDIUM';
+  minimumRequiredGoogleSolarApiImageQuality: 'LOW' | 'MEDIUM' | 'HIGH' = 'MEDIUM';
 
   billCostModel = (energyConsumptionKwh: number): number =>
     energyConsumptionKwh * this.averageCostPerKwh;
@@ -31,6 +30,5 @@ export class CustomerSpecificService {
   installationCostModel = (installationSize: InstallationSize): number =>
     installationSize.panelsCount + 10000;
 
-  kwhConsumptionModel = (monthlyBill: number) =>
-    monthlyBill / this.averageCostPerKwh;
+  kwhConsumptionModel = (monthlyBill: number) => monthlyBill / this.averageCostPerKwh;
 }

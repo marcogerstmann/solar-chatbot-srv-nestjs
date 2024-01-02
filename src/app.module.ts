@@ -5,12 +5,6 @@ import { SolarModule } from './solar/solar.module';
 import { GeoModule } from './geo/geo.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    OpenAIModule,
-    SolarModule,
-    OpenAIModule,
-    GeoModule,
-  ],
+  imports: [ConfigModule.forRoot(), OpenAIModule, SolarModule, OpenAIModule, GeoModule],
 })
 export class AppModule {}

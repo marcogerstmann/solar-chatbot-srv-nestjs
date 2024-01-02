@@ -12,13 +12,11 @@ export class GeoService {
   ) {}
 
   async getCoordinates(address: string): Promise<Coordinates> {
-    const googleCloudApiKey = this.configService.get<string>(
-      'GOOGLE_CLOUD_API_KEY',
-    );
+    const googleCloudApiKey = this.configService.get<string>('GOOGLE_CLOUD_API_KEY');
     const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${googleCloudApiKey}`;
     return await firstValueFrom(
       this.httpService.get(geocodingUrl).pipe(
-        map((response) => {
+        map(response => {
           const location = response.data.results[0].geometry.location;
           return { latitude: location.lat, longitude: location.lng };
         }),
