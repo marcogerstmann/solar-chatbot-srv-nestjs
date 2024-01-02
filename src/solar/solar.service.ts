@@ -40,7 +40,7 @@ export class SolarService {
   }
 
   /**
-   * The comments within this functions are from the official guide to calculate solar
+   * The comments within this function are from the official guide to calculate solar
    * costs and savings for non-US locations.
    * See: https://developers.google.com/maps/documentation/solar/calculate-costs-non-us?hl=en
    */
