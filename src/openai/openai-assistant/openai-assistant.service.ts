@@ -48,19 +48,20 @@ export class OpenAIAssistantService {
 
       if (run.status === 'requires_action') {
         // TODO: Make this whole block more generic
-        run.required_action.submit_tool_outputs.tool_calls.forEach(toolCall => {
+        run.required_action.submit_tool_outputs.tool_calls.forEach(async toolCall => {
           // TODO: Use constants for the function names of the OpenAI assist
           if (toolCall.function.name === 'solarPanelCalculations') {
             const functionArguments = JSON.parse(toolCall.function.arguments);
-            const output = this.solarService.performSolarPanelCalculationsWithFinancialAnalysis(
-              functionArguments.address,
-              functionArguments.monthlyBill,
-            );
+            const bestSolarInstallationSize =
+              await this.solarService.performSolarPanelCalculationsWithFinancialAnalysis(
+                functionArguments.address,
+                functionArguments.monthlyBill,
+              );
             openai.beta.threads.runs.submitToolOutputs(chatDto.threadId, run.id, {
               tool_outputs: [
                 {
                   tool_call_id: toolCall.id,
-                  output: JSON.stringify(output),
+                  output: JSON.stringify(bestSolarInstallationSize),
                 },
               ],
             });
