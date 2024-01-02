@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OpenAIService } from '../openai.service';
 import { ChatDto } from '../model/dto/chat.dto';
 import { Thread } from 'openai/resources/beta/threads/threads';
@@ -7,6 +7,8 @@ import { SolarService } from 'src/solar/solar.service';
 
 @Injectable()
 export class OpenAIAssistantService {
+  private readonly logger = new Logger(OpenAIAssistantService.name);
+
   constructor(
     private configService: ConfigService,
     private openAIService: OpenAIService,
@@ -47,7 +49,7 @@ export class OpenAIAssistantService {
       run = await openai.beta.threads.runs.retrieve(chatDto.threadId, run.id);
 
       if (run.status === 'failed') {
-        console.error('OpenAI client run failed: ', run.last_error);
+        this.logger.error('OpenAI client run failed: ', run.last_error);
         break;
       }
 

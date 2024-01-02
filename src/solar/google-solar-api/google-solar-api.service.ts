@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { GoogleSolarBuildingInsights } from '../model/google-solar-building-insights';
 import { Coordinates } from 'src/geo/model/coordinates';
 import { ConfigService } from '@nestjs/config';
@@ -9,6 +9,8 @@ import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class GoogleSolarApiService {
+  private readonly logger = new Logger(GoogleSolarApiService.name);
+
   constructor(
     private configService: ConfigService,
     private httpService: HttpService,
@@ -28,7 +30,8 @@ export class GoogleSolarApiService {
     const solarApiUrl = `https://solar.googleapis.com/v1/buildingInsights:findClosest?location.latitude=${coordinates.latitude}&location.longitude=${coordinates.longitude}&requiredQuality=${this.customerSpecifics.minimumRequiredGoogleSolarApiImageQuality}&key=${googleCloudApiKey}`;
     const { data: buildingInsights } = await firstValueFrom(
       this.httpService.get<GoogleSolarBuildingInsights>(solarApiUrl).pipe(
-        catchError(() => {
+        catchError(error => {
+          this.logger.error(`Could not get buildingInsights from Google Solar API`, error);
           throw 'Could not get buildingInsights from Google Solar API';
         }),
       ),
