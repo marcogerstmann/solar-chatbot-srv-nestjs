@@ -46,9 +46,14 @@ export class OpenAIAssistantService {
       await this.sleep(2000);
       run = await openai.beta.threads.runs.retrieve(chatDto.threadId, run.id);
 
+      if (run.status === 'failed') {
+        console.error('OpenAI client run failed: ', run.last_error);
+        break;
+      }
+
       if (run.status === 'requires_action') {
         // TODO: Make this whole block more generic
-        run.required_action.submit_tool_outputs.tool_calls.forEach(async toolCall => {
+        for (const toolCall of run.required_action.submit_tool_outputs.tool_calls) {
           // TODO: Use constants for the function names of the OpenAI assist
           if (toolCall.function.name === 'solarPanelCalculations') {
             const functionArguments = JSON.parse(toolCall.function.arguments);
@@ -66,12 +71,7 @@ export class OpenAIAssistantService {
               ],
             });
           }
-        });
-      }
-
-      if (run.status === 'failed') {
-        console.error('OpenAI client run failed: ', run.last_error);
-        break;
+        }
       }
     }
 
