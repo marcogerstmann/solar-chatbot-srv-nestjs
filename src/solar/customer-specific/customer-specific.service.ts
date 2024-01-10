@@ -4,7 +4,7 @@ import { InstallationSize } from '../model/installation-size';
 // TODO: Find another way of getting customer specific values
 @Injectable()
 export class CustomerSpecificService {
-  costIncreaseFactor = 1.002;
+  costIncreaseFactor = 1.022;
 
   dcToAcRate = 0.85;
 
