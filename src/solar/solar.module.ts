@@ -5,10 +5,12 @@ import { CustomerSpecificService } from './customer-specific/customer-specific.s
 import { GoogleSolarApiService } from './google-solar-api/google-solar-api.service';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import { SolarController } from './solar.controller';
 
 @Module({
   imports: [ConfigModule, HttpModule, GeoModule],
   providers: [SolarService, CustomerSpecificService, GoogleSolarApiService],
   exports: [SolarService],
+  controllers: [SolarController],
 })
 export class SolarModule {}
