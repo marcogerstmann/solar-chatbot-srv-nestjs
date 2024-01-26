@@ -59,11 +59,10 @@ export class OpenAIAssistantService {
           // TODO: Use constants for the function names of the OpenAI assist
           if (toolCall.function.name === 'solarPanelCalculations') {
             const functionArguments = JSON.parse(toolCall.function.arguments);
-            const bestSolarInstallationSize =
-              await this.solarService.performSolarPanelCalculationsWithFinancialAnalysis(
-                functionArguments.address,
-                functionArguments.monthlyBill,
-              );
+            const bestSolarInstallationSize = await this.solarService.getBestSolarInstallationSize(
+              functionArguments.address,
+              functionArguments.monthlyBill,
+            );
             openai.beta.threads.runs.submitToolOutputs(chatDto.threadId, run.id, {
               tool_outputs: [
                 {

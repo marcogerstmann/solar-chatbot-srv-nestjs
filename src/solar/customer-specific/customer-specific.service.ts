@@ -20,8 +20,6 @@ export class CustomerSpecificService {
 
   averageCostPerKwh = 0.2;
 
-  roofAreaCoveragePercentToAnalyze = 0.3;
-
   minimumRequiredGoogleSolarApiImageQuality: 'LOW' | 'MEDIUM' | 'HIGH' = 'MEDIUM';
 
   billCostModel = (energyConsumptionKwh: number): number =>

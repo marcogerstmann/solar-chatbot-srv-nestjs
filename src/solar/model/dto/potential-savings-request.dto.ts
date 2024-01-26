@@ -1,4 +1,4 @@
-export class PotentialSolarSavingsDto {
+export class PotentialSavingsRequestDto {
   address: string;
   monthlyBill: number;
 }

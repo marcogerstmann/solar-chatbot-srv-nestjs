@@ -11,20 +11,20 @@ export class SolarService {
     private customerSpecifics: CustomerSpecificService,
   ) {}
 
-  async performSolarPanelCalculationsWithFinancialAnalysis(
+  async getBestSolarInstallationSize(
     address: string,
     monthlyBill: number,
   ): Promise<InstallationSize> {
     const buildingInsights =
       await this.googleSolarApiService.getBuildingInsightsForAddress(address);
-    const bestInstallationSize = this.getInstallationSizeWithDesiredFinancialBenefits(
+    const bestInstallationSize = this.getInstallationSizeWithMaxFinancialBenefits(
       buildingInsights,
       monthlyBill,
     );
     return Promise.resolve(bestInstallationSize);
   }
 
-  private getInstallationSizeWithDesiredFinancialBenefits(
+  private getInstallationSizeWithMaxFinancialBenefits(
     buildingInsights: GoogleSolarBuildingInsights,
     monthlyBill: number,
   ): InstallationSize {
@@ -32,11 +32,7 @@ export class SolarService {
       buildingInsights,
       monthlyBill,
     );
-    return this.findClosestAnalyzedInstallationSizeForRoofAreaCoverage(
-      buildingInsights,
-      analyzedInstallationSizes,
-      this.customerSpecifics.roofAreaCoveragePercentToAnalyze,
-    );
+    return this.findWithMaxSavings(analyzedInstallationSizes);
   }
 
   /**
@@ -189,17 +185,9 @@ export class SolarService {
     return lifetimeCostOfElectricityWithoutSolar - totalCostWithSolar;
   }
 
-  private findClosestAnalyzedInstallationSizeForRoofAreaCoverage(
-    buildingInsights: GoogleSolarBuildingInsights,
-    analyzedInstallationSizes: InstallationSize[],
-    roofAreaCoveragePercentToAnalyze: number,
-  ): InstallationSize {
-    const roofAreaCoveragePanelsCount = Math.ceil(
-      buildingInsights.solarPotential.maxArrayPanelsCount * roofAreaCoveragePercentToAnalyze,
-    );
-    return analyzedInstallationSizes.find(
-      analyzedInstallationSize =>
-        analyzedInstallationSize.panelsCount === roofAreaCoveragePanelsCount,
+  private findWithMaxSavings(analyzedInstallationSizes: InstallationSize[]): InstallationSize {
+    return analyzedInstallationSizes.reduce((max, installationSize) =>
+      max.totalSavingsWithSolar > installationSize.totalSavingsWithSolar ? max : installationSize,
     );
   }
 }
